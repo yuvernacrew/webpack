@@ -28,6 +28,19 @@ module.exports = [
             presets: ['es2015','stage-0']
           }
         },
+      ]
+    },
+
+  }
+  // css
+  {
+    entry: __dirname + "/src/style.js",//ここにimportしてく
+    output: {
+      path: __dirname + '/dist', //ビルドしたファイルを吐き出す場所
+      filename: '[name].css'
+    },
+    module: {
+      loaders: [
         {
           test: /\.css$/,
           loader: ExtractTextPlugin.extract({ fallback: 'style-loader', use: 'css-loader' })
@@ -35,7 +48,7 @@ module.exports = [
         {
           test: /\.scss$/,
           // loader: ExtractTextPlugin.extract({ fallback: 'style-loader', use: 'sass-loader' })
-          loader: ExtractTextPlugin.extract('style-loader', 'css-loader?-url&sourceMap&minimize!sass-loader?outputStyle=expanded&sourceMap=true&sourceMapContents=true')
+          loader: ExtractTextPlugin.extract({ fallback: 'style-loader', use: 'sass-loader' })
         }
       ]
     },
@@ -43,30 +56,6 @@ module.exports = [
       new ExtractTextPlugin("[name].css")
     ]
   }
-  // css
-  // {
-  //   entry: __dirname + "/src/style.scss",//ここにimportしてく
-  //   output: {
-  //     path: __dirname + '/dist', //ビルドしたファイルを吐き出す場所
-  //     filename: '[name].css'
-  //   },
-  //   module: {
-  //     loaders: [
-  //       {
-  //         test: /\.css$/,
-  //         loader: ExtractTextPlugin.extract({ fallback: 'style-loader', use: 'css-loader' })
-  //       },
-  //       {
-  //         test: /\.scss$/,
-  //         // loader: ExtractTextPlugin.extract({ fallback: 'style-loader', use: 'sass-loader' })
-  //         loader: ExtractTextPlugin.extract('style-loader', 'css-loader?-url&sourceMap&minimize!sass-loader?outputStyle=expanded&sourceMap=true&sourceMapContents=true')
-  //       }
-  //     ]
-  //   },
-  //   plugins: [
-  //     new ExtractTextPlugin("[name].css")
-  //   ]
-  // }
 ];
 
 //   {
