@@ -1,0 +1,33 @@
+{
+  "name": "webpack-demo",
+  "version": "1.0.0",
+  "description": "## はじめに この記事は初心者でもwebpackを用いて簡単な環境を構築できるように書いた記事です。 中級者以上でしたらおそらく物足りない記事になるかもしれませんが、初心者には十分な環境を整えることができると思います。",
+  "main": "index.js",
+  "scripts": {
+    "start": "webpack-dev-server",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yuvernacrew/webpack.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yuvernacrew/webpack/issues"
+  },
+  "homepage": "https://github.com/yuvernacrew/webpack#readme",
+  "devDependencies": {
+    "autoprefixer": "^6.7.5",
+    "babel-core": "^6.23.1",
+    "babel-loader": "^6.3.2",
+    "babel-preset-es2015": "^6.22.0",
+    "babel-preset-stage-0": "^6.22.0",
+    "css-loader": "^0.26.1",
+    "extract-text-webpack-plugin": "^2.0.0-rc.3",
+    "node-sass": "^4.5.0",
+    "sass-loader": "^6.0.2",
+    "style-loader": "^0.13.1",
+    "webpack-dev-server": "^2.4.1"
+  }
+}
