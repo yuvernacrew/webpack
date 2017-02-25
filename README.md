@@ -1,4 +1,6 @@
-# はじめてのWebpack
+# Qiita記事
+# はじめてのWebpack 
+#js #webpack  #記事
 
 ## はじめに
 この記事は初心者でもwebpackを用いて簡単な環境を構築できるように書いた記事です。
@@ -13,7 +15,7 @@
 node.jsをまだインストールしていない人は下記のリンク等などを見てインストールしてみてください。
  [5分で終了。node.jsの環境構築が拍子抜けするほど簡単だったのでサンプルプログラム付きでまとめてみました【Mac編】](http://www.tettori.net/post/293/)
 
----
+
 ## 準備
 それでは、環境を作っていく流れをまずはざっくりと説明していきます。
 ターミナルを開いて準備しましょう。
@@ -30,32 +32,32 @@ package.jsonを作成するコマンドは
 `$ npm init`
 いろいろ表示されるけどすべてenterで大丈夫です。
 
----
+
 ## webpackを導入
 ### webpackとは
 分かりやすい記事があったので引用しました。
 >  Webpackとは、Webコンテンツを構成するファイルを「モジュール」という単位で取り扱い、最適な形に作り変える為のツール ( [JS開発で人気のWebpackとは!? 5分でわかる入門記事 - ICS MEDIA](https://ics.media/entry/12140) )
->
+> 
 > WebApp に必要なリソースの依存関係を解決し、アセット（配布物）を生成するビルドツール（要するにコンパイラ）( [webpack で始めるイマドキのフロントエンド開発 - Qiita](http://qiita.com/yosisa/items/61cfd3ede598e194813b) )
->
+> 
 とっても簡単に言えば、部品さえ作っておけばうまく適切な形に組み立ててくれるのがwebpackですかね。
 
 ### インストールの手順
 
 パッケージをインストールするときは
 グローバル
-	`$ npm install -g パッケージ`
-	( permissionエラーでたら権限がないのでnpmの前にsudoつける)
+  `$ npm install -g パッケージ`
+  ( permissionエラーでたら権限がないのでnpmの前にsudoつける)
 現在のディレクトリ
-	`$ npm install --save-dev パッケージ`
+  `$ npm install --save-dev パッケージ`
 とコマンドを打ってインストールします。
 
 今回はディレクトリにwebpackをインストールするので
-	`$ npm install --save-dev webpack`
+  `$ npm install --save-dev webpack`
 と打ちましょう。
 そうすると、node_modulesというフォルダが出来上がります。
 package.jsonを見ると
-```
+```JSON
 "devDependencies": {
     "webpack": "^2.2.1"
   }
@@ -65,12 +67,12 @@ package.jsonを見ると
 
 ### webpack.config.jsの作成
 まずはこんな感じにファイルを生成していきましょう。
-test
+webpack-demo
 │  index.html
 │  package.json
 │  webpack.config.js
 └─ src
-	─test.js
+  ─test.js
 └─ node_modules
 
 webpack.config.jsにプログラムを書いてみましょう。
@@ -78,15 +80,15 @@ webpack とは、コマンドを打っただけでコンパイルするように
 loaderの中はあとからどんどん追加していきますので、まずはここまで。
 ```js
 module.exports = {
-  entry: "src/test.js", //ビルドするファイル
+  entry: __dirname + "/src/test.js", //ビルドするファイル
   output: {
-    path: 'dist', //ビルドしたファイルを吐き出す場所
+    path: __dirname +'/dist', //ビルドしたファイルを吐き出す場所
     filename: 'bundle.js' //ビルドした後のファイル名
   },
-	module: {
+  module: {
     loaders: [
-			//loader
-	  ]
+      //loader
+    ]
   }
 };
 ```
@@ -100,14 +102,14 @@ module.exports = {
 
 なお、package.jsonのscriptの中を書き換えることでコマンドを省略することが可能です。
 ``` json
-	"scripts": {
+  "scripts": {
     "start": "webpack-dev-server"
   }
 ```
 
 この場合は、`$ npm start` とコマンドを打つと `$ webpack-dev-server` を起動することができるようになります。install, start, testなどデフォルトのタスクの場合は runはいらない様子。
 
----
+
 ## babelを使ってES6をコンパイルする。
 ### babelとは
 > babelとは次世代のJavaScriptの標準機能を、ブラウザのサポートを待たずに使えるようにするNode.js製のツール。 [Babelの手ほどき - Babelとは | CodeGrid](https://app.codegrid.net/entry/babel-1#toc-7)
@@ -115,7 +117,7 @@ module.exports = {
 ### babelのパッケージをインストール
 今回は、babel-core、babel-loader、babel-preset-es2015、babel-preset-stage-0 babel-polypillのプラグインをインストールします。
 
-`npm install --save-dev babel-core babel-loader babel-preset-es2015 babel-preset-stage-0`
+`npm install --save-dev babel-core babel-loader babel-preset-es2015 babel-preset-stage-0 babel-polyfill` 
 このようにパッケージは連続して書いてけば全部一気にインストールできます。
 
 * babel-core
@@ -150,8 +152,16 @@ package.jsonをみると
 ### webpack.config.jsを書き換えてbabelでコンパイルできるようにする。
 
 次は先ほど無視したlorderの中に追加していきます。
+
 ```js
 loaders: [
+      // {
+      //   test: ビルド対象のファイルを指定
+      //   includes: ビルド対象に含めるファイルを指定
+      //   exclude: ビルド対象に除外するファイルを指定
+      //   loader: loaderを指定
+      //   query: loader に渡したいクエリパラメータを指定
+      // },
       {
        test: /\.js$/,
        loader: 'babel-loader',
@@ -167,7 +177,7 @@ loaders: [
 これで、webpackとbabelの環境設定はokです。
 仮にindex.htmlとtest.jsにES2015(ES6)で何か書いて見ましょう。
 
-index.html
+index.html 
 ```html
 <html>
   <head>
@@ -184,55 +194,43 @@ test.js (ES2015であればなんでもok !)
 import 'babel-polyfill'
 
 let num = 1;
-console.log(num);
+console.log(num); 
 ```
 
 bundle.jsを確認してみて、let -> var になってたらコンパイルされています。
 
----
-## PostCSSを使ってSassをコンパイルする
-> PostCSSとは、JavaScriptで書いたプラグインでCSSを変換するためのツール
 
-今回は postcss-loader、sugarss、precss、autoprefixerを使います。
-`$ npm install --save-dev postcss-loader sugarss precss autoprefixer`
+## scssをコンパイルする
+もともとwebpack自体が、基本的に全てをjavascriptとして扱ってしまうため、cssを扱うことは少々難しく感じられた。
+cssをwebpackで扱うことに関してわかりやすいと感じたのはこの記事なので、ぜひチェックを。
+[なんとなくで理解しないWebpackのCSS周辺 - Qiita](http://qiita.com/inuscript/items/0574ab1ef358fecb55b9)
 
-* postcss-loader
-PostCSSのローダー
-* sugarss
-SassをCSSにコンパイルする。
-* precss
-$を使った変数をコンパイルする。(sassファイルにインポートする)
-* autoprefixer
-'-webkit-'や'-moz-'などのベンダープレフィックスをつけてくれる。(sassファイルにインポートする)
+(今後追記していきます。)
 
-### webpack.config.jsを書き換えてsassをコンパイルできるようにする
+## vue.js
+今回、vue.jsを使うためにwebpackを導入したので、vue.jsもちらりと。
+vue.jsは下の記事を参考にしました。
+[参考](http://shigekitakeguchi.github.io/2016/08/10/1.html)
+ [Introduction · GitBook](https://router.vuejs.org/ja/) 
 
-webpack.config.js
-```js
-{
-  module: {
-    loaders: [
-		 // 他のloader
-      {
-        test: /\.sass$/,
-        loaders: ['style', 'css', 'postcss?parser=sugarss'],
-      },
-    ],
-  },
-  postcss: [autoprefixer({ browsers: ['IE 9', 'IE 10', 'IE 11', 'last 2 versions'] }), precss],
-}
-```
+### vue-router 2
+* vue-routerとは
+シングルアプリケーションの構築をするときに、Vue.jsのコンポーネントを使ってアプリケーションを構成しており、そのコンポーネントとルートをマッピングさせてvue-routerにどこでレンダリングするか知らせるものである。
+    
+## vue-cli
+* vue-cliとは
+シングルページアプリケーションを作成するのに必須なbabelやwebpackなど全てをインストールしてくれるフロントエンドのフレームワーク。オフィシャル。初心者のうちはあまり使わない方が良い。
 
-style.sass
-```sass
-	import autoprefixer from 'autoprefixer';
-	import precss from 'precss';
-```
+* インストール
+[インストール - Vue.js](https://jp.vuejs.org/v2/guide/installation.html)
+`npm install -g vue-cli`
 
----
-## url-loaderを使って画像を圧縮
+### Vuex
+`npm i —save vuex@^2.0.0-rc.5`
 
----
+### vue-loader
+`npm install —save vue-loader`
+
 
 ### はまったこと
 
@@ -245,11 +243,11 @@ style.sass
 `Sorry, name can no longer contain capital letters.`
 …名前に大文字を入れるなとおこられました、初歩的。
 
-
----
 ### 参考記事
  [webpack.config.jsの読み方、書き方](http://dackdive.hateblo.jp/entry/2016/04/13/123000)
 [webpack で始めるイマドキのフロントエンド開発 - Qiita](http://qiita.com/yosisa/items/61cfd3ede598e194813b)
 [step by stepで始めるweb pack - Qiita](http://qiita.com/howdy39/items/48d85c430f90a21075cd)
 [JS開発で人気のWebpackとは!? 5分でわかる入門記事 - ICS MEDIA](https://ics.media/entry/12140)
-[webpackでPostCSSを使ってSassをコンパイルする設定 - Qiita](http://qiita.com/kenichi_odo/items/308328e78737756795e2)
+[webpackを使った開発の効率化方法やloaderの種類をTLで話してきました【スライド付き】 | 株式会社LIG](https://liginc.co.jp/web/js/149577)
+
+ 
